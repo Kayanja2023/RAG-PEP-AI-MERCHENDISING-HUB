@@ -24,7 +24,8 @@ def add_styling():
             color: white;
             border-radius: 8px;
             border: none;
-            padding: 10px 20px;
+            padding: 8px 16px;
+            font-size: 14px;
         }
         
         .stButton > button:hover {
@@ -36,8 +37,8 @@ def add_styling():
             background-color: #FFF8E7;
             color: #8B7355;
             border: 1px solid #F5E6D3;
-            padding: 4px 12px;
-            font-size: 16px;
+            padding: 3px 10px;
+            font-size: 14px;
         }
         
         .stButton > button[kind="secondary"]:hover {
@@ -46,9 +47,26 @@ def add_styling():
             border-color: #E6D5C3;
         }
         
-        /* Make the sidebar look nice */
+        /* Make the sidebar more compact */
         [data-testid="stSidebar"] {
             background-color: #ffffff;
+            max-width: 280px;
+        }
+        
+        /* Reduce sidebar content padding */
+        [data-testid="stSidebar"] > div:first-child {
+            padding-top: 1rem;
+        }
+        
+        /* Make sidebar headers smaller */
+        [data-testid="stSidebar"] h2 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        [data-testid="stSidebar"] h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -56,14 +74,14 @@ def add_styling():
 def show_header():
     st.markdown("""
         <div style='background: linear-gradient(90deg, #FFF8E7, #FFFDF5); 
-                    padding: 30px; 
-                    border-radius: 10px; 
+                    padding: 15px 20px; 
+                    border-radius: 8px; 
                     text-align: center;
-                    border: 2px solid #F5E6D3;
-                    margin-bottom: 20px;'>
-            <div style='display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;'>
+                    border: 1px solid #F5E6D3;
+                    margin-bottom: 15px;'>
+            <div style='display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 5px;'>
                 <!-- Silvertree Logo -->
-                <svg width="250" height="105" viewBox="0 0 233 49.17" xmlns="http://www.w3.org/2000/svg">
+                <svg width="180" height="75" viewBox="0 0 233 49.17" xmlns="http://www.w3.org/2000/svg">
                     <style type="text/css">
                         .st0{fill:#262425;}
                     </style>
@@ -184,7 +202,7 @@ def show_header():
                         c0.06-1.38,1.34-2.94,1.94-3.49c1.87-1.73,2.61-2.29,8.25-6.76C35.94,21.52,35.81,24.17,34.97,25.37z"/>
                 </svg>
             </div>
-            <p style='color: #6B7280; margin: 5px 0 0 0; font-size: 1rem;'>
+            <p style='color: #6B7280; margin: 3px 0 0 0; font-size: 0.85rem;'>
                 "Consumer Brands with Purpose"
             </p>
         </div>
@@ -362,8 +380,6 @@ with st.sidebar:
 
 # Main chat
 chain = get_chat_chain()
-
-st.subheader("Chat")
 
 # Initialize messages in session state if not exists
 if "messages" not in st.session_state:
