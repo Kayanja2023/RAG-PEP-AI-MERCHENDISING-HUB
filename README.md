@@ -1,4 +1,4 @@
-# 💬 RAG Chatbot - Production-Grade Document QA System
+# RAG Chatbot - Production-Grade Document QA System
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Streamlit](https://img.shields.io/badge/streamlit-1.22+-red.svg)](https://streamlit.io/)
@@ -9,7 +9,28 @@ A production-ready Retrieval-Augmented Generation (RAG) chatbot leveraging OpenA
 
 ---
 
-## 🎯 Overview
+## Table of Contents
+
+- [Overview](#overview)
+- [System Architecture](#system-architecture)
+- [Quick Start](#quick-start)
+- [Deployment](#deployment)
+- [Project Structure](#project-structure)
+- [Configuration Options](#configuration-options)
+- [Key Features & Implementation](#key-features--implementation)
+- [RAG Pipeline Deep Dive](#rag-pipeline-deep-dive)
+- [Development & Testing](#development--testing)
+- [Troubleshooting](#troubleshooting)
+- [Performance Characteristics](#performance-characteristics)
+- [Security Considerations](#security-considerations)
+- [Advanced Usage](#advanced-usage)
+- [Technical Stack](#technical-stack)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Overview
 
 This application implements a sophisticated RAG pipeline that enables users to:
 - Upload and index documents in multiple formats (TXT, PDF, DOCX, Markdown)
@@ -126,6 +147,117 @@ streamlit run app.py
 ```
 
 Access the application at: `http://localhost:8501`
+
+---
+
+## Deployment
+
+### Deploying to Streamlit Cloud
+
+This application is designed for easy deployment to Streamlit Cloud (formerly Streamlit Sharing).
+
+#### Step 1: Push to GitHub
+
+Ensure your code is pushed to a GitHub repository:
+
+```powershell
+git add .
+git commit -m "Prepare for deployment"
+git push origin main
+```
+
+#### Step 2: Deploy on Streamlit Cloud
+
+1. Go to [share.streamlit.io](https://share.streamlit.io)
+2. Sign in with your GitHub account
+3. Click "New app"
+4. Select your repository: `Kayanja2023/Rag`
+5. Set main file path: `app.py`
+6. Set branch: `main`
+
+#### Step 3: Configure Secrets
+
+**CRITICAL**: You must configure the OpenAI API key as a secret in Streamlit Cloud:
+
+1. In your app dashboard, click "Settings" (⚙️)
+2. Navigate to "Secrets" section
+3. Add your secrets in TOML format:
+
+```toml
+OPENAI_API_KEY = "sk-your-actual-openai-api-key-here"
+```
+
+4. Click "Save"
+
+#### Step 4: Deploy
+
+Click "Deploy" and wait for the application to start. The deployment process will:
+- Clone your repository
+- Install dependencies from `requirements.txt`
+- Start the Streamlit application
+
+**Note**: The initial deployment may take 2-5 minutes as it installs all dependencies.
+
+### Deployment Checklist
+
+Before deploying, ensure:
+
+- [ ] Repository is public or Streamlit Cloud has access
+- [ ] `requirements.txt` is present and up-to-date
+- [ ] `OPENAI_API_KEY` is configured in Streamlit Cloud secrets
+- [ ] `.env` file is listed in `.gitignore` (never commit API keys!)
+- [ ] `data/` directory is in `.gitignore` (documents are user-specific)
+- [ ] Code is tested locally before deployment
+
+### Troubleshooting Deployment
+
+#### ❌ Error: `OpenAIError: The api_key client option must be set`
+
+**This is the most common deployment error!**
+
+**Root Cause**: The OpenAI API key is not configured in Streamlit Cloud secrets.
+
+**Solution**: 
+1. Go to [share.streamlit.io](https://share.streamlit.io)
+2. Click your app → **Settings** (⚙️) → **Secrets**
+3. Add in TOML format:
+   ```toml
+   OPENAI_API_KEY = "sk-your-actual-key-here"
+   ```
+4. Click **Save** and wait for automatic reboot (~30 seconds)
+
+**Verification**: Check the logs - you should see the app start successfully without the OpenAI error.
+
+**Error**: `ModuleNotFoundError: No module named 'X'`
+
+**Solution**: Ensure the missing package is in `requirements.txt`
+
+**Error**: App crashes after document upload
+
+**Solution**: Streamlit Cloud has limited storage. Documents are ephemeral and will be lost on reboot.
+
+### Environment-Specific Configuration
+
+For production deployments, consider:
+
+```python
+# config.py - Add environment detection
+import os
+
+# Use temp directories in cloud environments
+if os.environ.get("STREAMLIT_RUNTIME_ENV") == "cloud":
+    DOCS_DIR = "/tmp/documents"
+    FAISS_DIR = "/tmp/faiss_store"
+else:
+    DOCS_DIR = os.path.join(os.path.dirname(__file__), "data", "documents")
+    FAISS_DIR = os.path.join(os.path.dirname(__file__), "data", "faiss_store")
+```
+
+### Monitoring Deployed Application
+
+- **Logs**: View real-time logs in Streamlit Cloud dashboard
+- **Status**: Check app status and resource usage
+- **Analytics**: Monitor user interactions (requires Streamlit for Teams)
 
 ---
 
