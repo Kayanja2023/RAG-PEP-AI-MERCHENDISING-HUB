@@ -254,6 +254,19 @@ def show_header():
         </div>
     """, unsafe_allow_html=True)
 
+def show_demo_disclaimer():
+    """Display demo/POC disclaimer for internal tool."""
+    st.markdown("""
+        <div style='background: #FEF3C7; padding: 12px 16px; border-radius: 8px; 
+                    border-left: 4px solid #F59E0B; margin-bottom: 16px;'>
+            <p style='color: #92400E; margin: 0; font-size: 0.8rem; line-height: 1.5;'>
+                ⚠️ <strong>Demo Version</strong> – This is a proof-of-concept knowledge base assistant. 
+                It is not connected to live PEP systems or real-time data. 
+                For production use, verify all information with official sources.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
 # Helper function for file signature tracking
 def get_file_signature(uploaded_file):
     """Create unique signature for uploaded file to track processing."""
@@ -306,6 +319,7 @@ st.set_page_config(page_title="Hollard Policy Assistant", page_icon="🛡️", l
 # Apply custom styling and header - v2
 add_styling()
 show_header()
+show_demo_disclaimer()
 
 # Sidebar
 with st.sidebar:
