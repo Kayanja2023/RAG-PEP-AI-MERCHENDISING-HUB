@@ -46,14 +46,14 @@ def add_styling():
         .stButton > button {
             background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%);
             color: white;
-            border-radius: 8px;
+            border-radius: 6px;
             border: none;
-            padding: 12px 32px;
-            font-size: 14px;
+            padding: 6px 16px;
+            font-size: 12px;
             font-weight: 600;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(17, 128, 250, 0.25);
+            box-shadow: 0 2px 6px rgba(17, 128, 250, 0.2);
         }
         
         .stButton > button:hover {
@@ -165,10 +165,10 @@ def add_styling():
         .stChatMessage {
             background: white;
             border: 2px solid transparent;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
             transition: all 0.2s ease;
         }
         
@@ -194,15 +194,15 @@ def add_styling():
         /* Chat message avatar styling */
         .stChatMessage [data-testid="chatAvatarIcon-user"],
         .stChatMessage [data-testid="chatAvatarIcon-assistant"] {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 16px;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
         
         .stChatMessage [data-testid="chatAvatarIcon-user"] {
@@ -454,29 +454,29 @@ add_styling()
 # Main banner at the top
 st.markdown("""
     <div style='background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%); 
-                padding: 32px 48px; border-radius: 16px; margin-bottom: 24px;
-                box-shadow: 0 8px 24px rgba(17, 128, 250, 0.3);
-                border: 3px solid #FFFFFF;'>
+                padding: 16px 24px; border-radius: 12px; margin-bottom: 16px;
+                box-shadow: 0 4px 12px rgba(17, 128, 250, 0.25);
+                border: 2px solid #FFFFFF;'>
         <div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;'>
-            <div style='display: flex; align-items: center; gap: 24px;'>
-                <div style='background: #FFFFFF; padding: 16px 28px 16px 32px; border-radius: 10px;
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: relative; overflow: visible;'>
-                    <div style='position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-                                width: 20px; height: 30px; background: #FFD100; 
-                                border-radius: 44px 0 0 44px; z-index: 1;'></div>
+            <div style='display: flex; align-items: center; gap: 16px;'>
+                <div style='background: #FFFFFF; padding: 8px 16px 8px 20px; border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); position: relative; overflow: visible;'>
+                    <div style='position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
+                                width: 14px; height: 22px; background: #FFD100; 
+                                border-radius: 30px 0 0 30px; z-index: 1;'></div>
                     <h1 style='background: linear-gradient(135deg, #1180FA 0%, #FFD100 70%, #FFD100 100%);
                                -webkit-background-clip: text;
                                -webkit-text-fill-color: transparent;
                                background-clip: text;
-                               margin: 0; font-size: 2.8rem; font-weight: 900; 
-                               letter-spacing: 1px; position: relative; z-index: 2;'>PEP</h1>
+                               margin: 0; font-size: 1.8rem; font-weight: 900; 
+                               letter-spacing: 0.5px; position: relative; z-index: 2;'>PEP</h1>
                 </div>
                 <div>
-                    <h2 style='color: #FFFFFF; margin: 0 0 8px 0; font-size: 1.8rem; 
-                               font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+                    <h2 style='color: #FFFFFF; margin: 0 0 4px 0; font-size: 1.1rem; 
+                               font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.1);'>
                         Merchandising Knowledge Hub
                     </h2>
-                    <p style='color: #E0F2FE; margin: 0; font-size: 1rem; font-weight: 500;'>
+                    <p style='color: #E0F2FE; margin: 0; font-size: 0.75rem; font-weight: 500;'>
                         🔍 AI-Powered Intelligence for Buying, Planning & Merchandising Teams
                     </p>
                 </div>
