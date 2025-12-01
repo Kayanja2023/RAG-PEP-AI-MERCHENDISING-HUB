@@ -12,8 +12,8 @@ load_dotenv()
 
 # Page configuration for PEP Merchandising Assistant
 st.set_page_config(
-    page_title="PEP Merchandising Assistant",
-    page_icon="📊",
+    page_title="PEP Merchandising Hub",
+    page_icon="🔵",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -21,81 +21,86 @@ st.set_page_config(
 def add_styling():
     st.markdown("""
         <style>
-        /* PEP Brand Colors */
+        /* PEP South Africa Official Brand Colors */
         :root {
-            --pep-red: #E30613;
-            --pep-red-dark: #B30510;
-            --pep-blue: #1E3A8A;
-            --pep-blue-light: #3B82F6;
-            --pep-gray: #4B5563;
-            --pep-bg: #F8FAFC;
+            --pep-azure: #1180FA;
+            --pep-azure-dark: #0D6DD9;
+            --pep-loblolly: #C4CDD5;
+            --pep-potters-clay: #945E3A;
+            --pep-white: #FFFFFF;
+            --pep-dark: #1F2937;
         }
         
-        /* Main background - pure white */
+        /* Clean background with Loblolly tint */
         .main {
-            background-color: #FFFFFF;
+            background-color: #F8F9FA;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
         
-        /* Primary buttons - PEP red with professional styling */
+        /* Hide Streamlit branding */
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        
+        /* Primary buttons - Azure Radiance blue */
         .stButton > button {
-            background-color: #E30613;
+            background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%);
             color: white;
             border-radius: 8px;
             border: none;
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 500;
-            box-shadow: 0 1px 4px rgba(227, 6, 19, 0.1);
+            padding: 12px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(17, 128, 250, 0.25);
         }
         
         .stButton > button:hover {
-            background-color: #B30510;
-            box-shadow: 0 2px 8px rgba(227, 6, 19, 0.18);
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #0D6DD9 0%, #0A5AB8 100%);
+            box-shadow: 0 6px 20px rgba(17, 128, 250, 0.35);
+            transform: translateY(-2px);
         }
         
-        /* Secondary delete buttons - light styling */
+        .stButton > button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(17, 128, 250, 0.3);
+        }
+        
+        /* Secondary buttons - Loblolly grey */
         .stButton > button[kind="secondary"] {
-            background-color: #F5F5F5;
-            color: #666666;
-            border: 1px solid #E0E0E0;
-            padding: 3px 8px;
-            font-size: 11px;
+            background: white;
+            color: #1F2937;
+            border: 2px solid #C4CDD5;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 600;
             border-radius: 8px;
             box-shadow: none;
         }
         
         .stButton > button[kind="secondary"]:hover {
-            background-color: #FEE2E2;
-            color: #B30510;
-            border-color: #E30613;
+            background: #F0F4F8;
+            border-color: #1180FA;
+            color: #1180FA;
         }
         
-        /* Sidebar - light blue/gray background */
+        /* Sidebar - Clean with Loblolly accents */
         [data-testid="stSidebar"] {
-            background-color: #F8FAFC;
-            max-width: 280px;
-            border-right: 2px solid #E5E7EB;
+            background: white;
+            border-right: 1px solid #C4CDD5;
+            box-shadow: 2px 0 12px rgba(196, 205, 213, 0.15);
         }
         
-        [data-testid="stSidebar"] > div:first-child {
-            padding-top: 1rem;
-        }
-        
-        /* Sidebar headers - PEP blue */
-        [data-testid="stSidebar"] h2 {
-            color: #1E3A8A;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-        }
-        
+        [data-testid="stSidebar"] h2,
         [data-testid="stSidebar"] h3 {
-            color: #1E3A8A;
+            color: #1F2937;
+            font-weight: 700;
             font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.4rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #1180FA;
         }
         
         /* File uploader styling */
@@ -155,13 +160,137 @@ def add_styling():
             color: #666666;
         }
         
+        
+        /* Chat messages - modern card design */
+        .stChatMessage {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+        }
+        
+        .stChatMessage:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        /* User messages - PEP Yellow accent */
+        .stChatMessage[data-testid="user-message"] {
+            background: linear-gradient(135deg, #FFFDF7 0%, #FFFFFF 100%);
+            border: 2px solid #FFD100;
+            border-left: 6px solid #FFD100;
+        }
+        
+        /* Assistant messages - PEP Blue accent */
+        .stChatMessage[data-testid="assistant-message"] {
+            background: linear-gradient(135deg, #F8FBFF 0%, #FFFFFF 100%);
+            border: 2px solid #1180FA;
+            border-left: 6px solid #1180FA;
+        }
+        
+        /* Chat message avatar styling */
+        .stChatMessage [data-testid="chatAvatarIcon-user"],
+        .stChatMessage [data-testid="chatAvatarIcon-assistant"] {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stChatMessage [data-testid="chatAvatarIcon-user"] {
+            background: linear-gradient(135deg, #FFD100 0%, #FFC700 100%);
+            color: #1F2937;
+        }
+        
+        .stChatMessage [data-testid="chatAvatarIcon-assistant"] {
+            background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%);
+            color: white;
+        }
+        
+        /* Text inputs - Azure focus */
+        .stTextInput > div > div > input,
+        .stTextArea > div > div > textarea {
+            border: 2px solid #C4CDD5;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .stTextInput > div > div > input:focus,
+        .stTextArea > div > div > textarea:focus {
+            border-color: #1180FA;
+            box-shadow: 0 0 0 3px rgba(17, 128, 250, 0.1);
+            outline: none;
+        }
+        
+        /* Chat input placeholder */
+        .stChatInput input::placeholder {
+            color: #9CA3AF;
+            font-style: italic;
+        }
+        
+        /* File uploader */
+        [data-testid="stFileUploader"] {
+            background: white;
+            border: 2px dashed #C4CDD5;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+        
+        [data-testid="stFileUploader"]:hover {
+            border-color: #1180FA;
+            background: #F0F7FF;
+        }
+        
+        /* Messages */
+        .stSuccess {
+            background: #F0FDF4;
+            border-left: 4px solid #10B981;
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+        
+        .stInfo {
+            background: #F0F7FF;
+            border-left: 4px solid #1180FA;
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+        
+        .stWarning {
+            background: #FFF9F5;
+            border-left: 4px solid #945E3A;
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+        
         /* Links */
         a {
-            color: #1E3A8A;
+            color: #1180FA;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
         }
         
         a:hover {
-            color: #E30613;
+            border-bottom-color: #945E3A;
+        }
+        
+        /* Metrics */
+        [data-testid="stMetricValue"] {
+            color: #1180FA;
+            font-weight: 700;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -169,103 +298,108 @@ def add_styling():
 def show_welcome_message(docs_exist, messages_exist):
     """Display contextual welcome message based on app state."""
     if not docs_exist and not messages_exist:
-        # First-time user - no documents, no chat
         st.markdown("""
-            <div style='background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
-                        padding: 18px;
-                        border-radius: 10px;
-                        border: 1px solid #E5E7EB;
-                        margin-bottom: 16px;
-                        text-align: center;'>
-                <h2 style='color: #E30613; margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 600;'>
-                    <span style='font-size: 0.9rem;'>📊</span> Welcome to PEP Merchandising Assistant!
-                </h2>
-                <p style='color: #1E3A8A; font-size: 0.85rem; line-height: 1.4; margin: 6px 0;'>
-                    Quick access to buying, planning, and merchandising information.
-                </p>
-                <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px;'>
-                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
-                        <div style='font-size: 1rem; margin-bottom: 4px;'>📊</div>
-                        <strong style='color: #E30613; font-size: 0.85rem;'>Performance Data</strong>
-                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>KPIs, benchmarks, trends</p>
+            <div style='background: white; padding: 48px 40px; border-radius: 16px;
+                        border: 2px solid #C4CDD5; margin-bottom: 32px;
+                        box-shadow: 0 4px 20px rgba(196, 205, 213, 0.2);'>
+                
+                <div style='text-align: center; margin-bottom: 40px;'>
+                    <div style='display: inline-block; background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%); 
+                                padding: 20px 40px; border-radius: 12px; margin-bottom: 20px;
+                                box-shadow: 0 4px 16px rgba(17, 128, 250, 0.3);'>
+                        <h1 style='color: white; margin: 0; font-size: 2.4rem; font-weight: 900; 
+                                   letter-spacing: 3px;'>PEP</h1>
                     </div>
-                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
-                        <div style='font-size: 1rem; margin-bottom: 4px;'>📦</div>
-                        <strong style='color: #E30613; font-size: 0.85rem;'>Vendor Information</strong>
-                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Contacts, lead times</p>
+                    <h2 style='color: #1F2937; margin: 0 0 12px 0; font-size: 1.5rem; font-weight: 700;'>
+                        Merchandising Knowledge Hub
+                    </h2>
+                    <p style='color: #6B7280; font-size: 1.05rem; line-height: 1.6; margin: 0;'>
+                        Internal knowledge base for Buying, Planning & Merchandising teams
+                    </p>
+                </div>
+                
+                <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+                            gap: 20px; margin-top: 32px;'>
+                    <div style='background: #FFFFFF; padding: 20px; border-radius: 12px; 
+                                border-left: 5px solid #FFD100; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                                transition: all 0.2s;'
+                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 16px rgba(255,209,0,0.2)'"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.05)'">
+                        <div style='font-size: 2rem; margin-bottom: 12px;'>📊</div>
+                        <strong style='color: #000000; font-size: 1rem; font-weight: 700; 
+                                      display: block; margin-bottom: 8px;'>Performance Metrics</strong>
+                        <p style='color: #6B7280; font-size: 0.9rem; margin: 0; line-height: 1.5;'>
+                            KPIs, stock turn, sell-through rates, GMROI benchmarks
+                        </p>
                     </div>
-                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
-                        <div style='font-size: 1rem; margin-bottom: 4px;'>📋</div>
-                        <strong style='color: #E30613; font-size: 0.85rem;'>Procedures & Policies</strong>
-                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Workflows, approvals</p>
+                    <div style='background: #FFFFFF; padding: 20px; border-radius: 12px; 
+                                border-left: 5px solid #FFD100; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                                transition: all 0.2s;'
+                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 16px rgba(255,209,0,0.2)'"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.05)'">
+                        <div style='font-size: 2rem; margin-bottom: 12px;'>🏭</div>
+                        <strong style='color: #000000; font-size: 1rem; font-weight: 700; 
+                                      display: block; margin-bottom: 8px;'>Supplier Directory</strong>
+                        <p style='color: #6B7280; font-size: 0.9rem; margin: 0; line-height: 1.5;'>
+                            Vendor contacts, lead times, payment terms, ratings
+                        </p>
                     </div>
-                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
-                        <div style='font-size: 1rem; margin-bottom: 4px;'>💰</div>
-                        <strong style='color: #E30613; font-size: 0.85rem;'>Pricing & Margins</strong>
-                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Calculations, guidelines</p>
+                    <div style='background: #FFFFFF; padding: 20px; border-radius: 12px; 
+                                border-left: 5px solid #FFD100; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                                transition: all 0.2s;'
+                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 16px rgba(255,209,0,0.2)'"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.05)'">
+                        <div style='font-size: 2rem; margin-bottom: 12px;'>📝</div>
+                        <strong style='color: #000000; font-size: 1rem; font-weight: 700; 
+                                      display: block; margin-bottom: 8px;'>Procedures & Policies</strong>
+                        <p style='color: #6B7280; font-size: 0.9rem; margin: 0; line-height: 1.5;'>
+                            Purchase orders, approvals, quality standards
+                        </p>
+                    </div>
+                    <div style='background: #FFFFFF; padding: 20px; border-radius: 12px; 
+                                border-left: 5px solid #FFD100; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                                transition: all 0.2s;'
+                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 16px rgba(255,209,0,0.2)'"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.05)'">
+                        <div style='font-size: 2rem; margin-bottom: 12px;'>💰</div>
+                        <strong style='color: #000000; font-size: 1rem; font-weight: 700; 
+                                      display: block; margin-bottom: 8px;'>Pricing Strategy</strong>
+                        <p style='color: #6B7280; font-size: 0.9rem; margin: 0; line-height: 1.5;'>
+                            Margin calculations, landed cost, promotional planning
+                        </p>
                     </div>
                 </div>
             </div>
         """, unsafe_allow_html=True)
     elif docs_exist and not messages_exist:
-        # Documents uploaded but no chat started
-        st.markdown("""
-            <div style='background: #DBEAFE;
-                        padding: 20px 24px;
-                        border-radius: 12px;
-                        margin-bottom: 20px;
-                        border-left: 4px solid #1E3A8A;'>
-                <p style='color: #1E3A8A; margin: 0; font-size: 1rem;'>
-                    ✨ <strong>Ready!</strong> Ask me about procedures, vendor info, pricing formulas, or performance benchmarks.
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
+        st.toast('✓ System Ready — Ask about suppliers, procedures, pricing, or performance', icon='✅')
 
 def show_internal_contacts():
     """Display internal PEP department contacts for additional support."""
     st.markdown("""
-        <div style='background: #F8FAFC; padding: 14px; border-radius: 8px; 
-                    border: 1px solid #E5E7EB; margin-top: 12px;'>
-            <p style='color: #1E3A8A; margin: 0 0 10px 0; font-weight: 600; font-size: 0.85rem;'>ℹ️ Need Additional Support?</p>
-            <div style='color: #666; font-size: 0.8rem; line-height: 1.6;'>
-                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>📞</span> <strong>Buying Manager:</strong> Ext 2401</p>
-                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>📞</span> <strong>Merchandising Head:</strong> Ext 2405</p>
-                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>📞</span> <strong>Planning Director:</strong> Ext 2410</p>
-                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>✉️</span> <strong>Email:</strong> merchandising@pep.co.za</p>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-
-def show_header():
-    st.markdown("""
-        <div style='background: linear-gradient(135deg, #E30613 0%, #B30510 100%); 
-                    padding: 14px 20px; 
-                    border-radius: 10px; 
-                    margin-bottom: 16px;
-                    box-shadow: 0 2px 8px rgba(227, 6, 19, 0.12);'>
-            <div style='text-align: center;'>
-                <h1 style='color: #FFFFFF; margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.3px;'>
-                    📊 PEP Merchandising Assistant
-                </h1>
-                <p style='color: #FEE2E2; margin: 3px 0 0 0; font-size: 0.75rem; font-weight: 400;'>
-                    Your Merchandising Knowledge Hub
+        <div style='background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); 
+                    padding: 20px; margin-top: 20px; border-radius: 12px;
+                    border: 2px solid #FFD100; box-shadow: 0 2px 8px rgba(255, 209, 0, 0.15);'>
+            <p style='color: #000000; margin: 0 0 16px 0; font-weight: 700; font-size: 0.9rem; 
+                      letter-spacing: 0.5px; display: flex; align-items: center;'>
+                <span style='font-size: 1.2rem; margin-right: 8px;'>📞</span> Support Contacts
+            </p>
+            <div style='color: #1F2937; font-size: 0.9rem; line-height: 2;'>
+                <p style='margin: 8px 0;'><strong>Buying Manager</strong> • Ext 2401</p>
+                <p style='margin: 8px 0;'><strong>Merchandising Head</strong> • Ext 2405</p>
+                <p style='margin: 8px 0;'><strong>Planning Director</strong> • Ext 2410</p>
+                <p style='margin: 8px 0; padding-top: 8px; border-top: 1px solid #FDE68A;'>
+                    <strong>✉️ Email:</strong> merchandising@pep.co.za
                 </p>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
+
+
 def show_demo_disclaimer():
-    """Display demo/POC disclaimer for internal tool."""
-    st.markdown("""
-        <div style='background: #FEF3C7; padding: 12px 16px; border-radius: 8px; 
-                    border-left: 4px solid #F59E0B; margin-bottom: 16px;'>
-            <p style='color: #92400E; margin: 0; font-size: 0.8rem; line-height: 1.5;'>
-                ⚠️ <strong>Demo Version</strong> – This is a proof-of-concept knowledge base assistant. 
-                It is not connected to live PEP systems or real-time data. 
-                For production use, verify all information with official sources.
-            </p>
-        </div>
-    """, unsafe_allow_html=True)
+    """Display demo/POC disclaimer as toast notification."""
+    st.toast('⚠️ Demo Version: Not connected to live PEP systems. Verify all information with official sources.', icon='⚠️')
 
 # Helper function for file signature tracking
 def get_file_signature(uploaded_file):
@@ -314,16 +448,48 @@ def process_new_uploads(new_files):
     
     return saved_count, errors
 
-st.set_page_config(page_title="Hollard Policy Assistant", page_icon="🛡️", layout="wide")
-
-# Apply custom styling and header - v2
+# Apply custom styling
 add_styling()
-show_header()
+
+# Main banner at the top
+st.markdown("""
+    <div style='background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%); 
+                padding: 32px 48px; border-radius: 16px; margin-bottom: 24px;
+                box-shadow: 0 8px 24px rgba(17, 128, 250, 0.3);
+                border: 3px solid #FFFFFF;'>
+        <div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;'>
+            <div style='display: flex; align-items: center; gap: 24px;'>
+                <div style='background: #FFFFFF; padding: 16px 28px 16px 32px; border-radius: 10px;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: relative; overflow: visible;'>
+                    <div style='position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+                                width: 20px; height: 30px; background: #FFD100; 
+                                border-radius: 44px 0 0 44px; z-index: 1;'></div>
+                    <h1 style='background: linear-gradient(135deg, #1180FA 0%, #FFD100 70%, #FFD100 100%);
+                               -webkit-background-clip: text;
+                               -webkit-text-fill-color: transparent;
+                               background-clip: text;
+                               margin: 0; font-size: 2.8rem; font-weight: 900; 
+                               letter-spacing: 1px; position: relative; z-index: 2;'>PEP</h1>
+                </div>
+                <div>
+                    <h2 style='color: #FFFFFF; margin: 0 0 8px 0; font-size: 1.8rem; 
+                               font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+                        Merchandising Knowledge Hub
+                    </h2>
+                    <p style='color: #E0F2FE; margin: 0; font-size: 1rem; font-weight: 500;'>
+                        🔍 AI-Powered Intelligence for Buying, Planning & Merchandising Teams
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
+
 show_demo_disclaimer()
 
 # Sidebar
 with st.sidebar:
-    st.header("📤 Documents")
+    st.header("📤 KNOWLEDGE BASE")
     
     # Initialize upload tracking
     if "processed_uploads" not in st.session_state:
@@ -334,11 +500,11 @@ with st.sidebar:
     
     # File uploader with generation-based key (auto-clears after save)
     uploaded = st.file_uploader(
-        "Upload files",
+        "Upload Documents",
         type=["txt", "pdf", "docx", "md"],
         accept_multiple_files=True,
         key=f"uploader_{st.session_state.upload_generation}",
-        help="Files will be saved automatically when you select them."
+        help="Accepted formats: TXT, PDF, DOCX, MD"
     )
     
     # Process new uploads only (prevents infinite loop)
@@ -445,8 +611,30 @@ chain = get_chat_chain()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Show contextual welcome message
+# Add welcome greeting from assistant on first load (only if docs exist and no messages yet)
 docs = get_document_list()
+if docs and len(st.session_state.messages) == 0:
+    welcome_message = """👋 **Welcome to PEP Merchandising Intelligence Hub!**
+
+I'm your AI assistant, here to help you access critical merchandising information instantly.
+
+**I can help you with:**
+- 📊 Performance metrics, KPIs, and benchmarks
+- 🏭 Supplier directory and vendor information
+- 💰 Pricing strategies and margin calculations
+- 📝 Buying procedures and compliance standards
+- 📦 Merchandising guidelines and policies
+
+**Just ask me anything!** For example:
+- "What are the approved suppliers for footwear?"
+- "How do I calculate retail pricing?"
+- "What are the target stock turn rates?"
+
+How can I assist you today?"""
+    
+    st.session_state.messages.append({"role": "assistant", "content": welcome_message})
+
+# Show contextual welcome message
 show_welcome_message(docs_exist=bool(docs), messages_exist=bool(st.session_state.messages))
 
 # Add clear chat button
@@ -460,24 +648,24 @@ if st.session_state.messages:
 
 # Display all previous messages
 for message in st.session_state.messages:
-    avatar = "👤" if message["role"] == "user" else "📊"
+    avatar = "👤" if message["role"] == "user" else "⚡"
     with st.chat_message(message["role"], avatar=avatar):
         st.write(message["content"])
 
 # Chat input - disabled if no documents
 if not chain:
-    st.info("👋 Upload knowledge base documents to start!")
+    st.info("📤 Upload knowledge base documents in the sidebar to begin")
     st.chat_input("Upload documents first...", disabled=True)
-elif user_input := st.chat_input("Ask about procedures, vendors, pricing, or benchmarks..."):
+elif user_input := st.chat_input("💬 Ask about suppliers, procedures, pricing, KPIs, compliance..."):
     # Add user message to session state and display it
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user", avatar="👤"):
         st.write(user_input)
     
     # Generate and display assistant response
-    with st.chat_message("assistant", avatar="📊"):
+    with st.chat_message("assistant", avatar="⚡"):
         try:
-            with st.spinner("🔍 Searching knowledge base..."):
+            with st.spinner("⚡ Searching knowledge base..."):
                 response = chain.invoke(
                     {"input": user_input},
                     config={"configurable": {"session_id": "main"}}
