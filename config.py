@@ -124,6 +124,9 @@ def delete_all_documents():
 
 def validate_file(filename, filesize):
     """Validate uploaded file."""
+    if not filename or filesize == 0:
+        return False, "File is empty or has no name"
+    
     if filesize > MAX_FILE_SIZE:
         return False, f"File too large (max {MAX_FILE_SIZE / 1024 / 1024:.0f}MB)"
     
