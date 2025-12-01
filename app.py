@@ -10,15 +10,25 @@ from config import (get_document_list, delete_document, validate_file,
 
 load_dotenv()
 
+# Page configuration for PEP Merchandising Assistant
+st.set_page_config(
+    page_title="PEP Merchandising Assistant",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 def add_styling():
     st.markdown("""
         <style>
-        /* Hollard Brand Colors */
+        /* PEP Brand Colors */
         :root {
-            --hollard-purple: #6B1E9E;
-            --hollard-purple-dark: #5A1880;
-            --hollard-purple-light: #E8D4F1;
-            --hollard-purple-bg: #F9F5FC;
+            --pep-red: #E30613;
+            --pep-red-dark: #B30510;
+            --pep-blue: #1E3A8A;
+            --pep-blue-light: #3B82F6;
+            --pep-gray: #4B5563;
+            --pep-bg: #F8FAFC;
         }
         
         /* Main background - pure white */
@@ -26,22 +36,22 @@ def add_styling():
             background-color: #FFFFFF;
         }
         
-        /* Primary buttons - Hollard purple with rounded corners */
+        /* Primary buttons - PEP red with professional styling */
         .stButton > button {
-            background-color: #6B1E9E;
+            background-color: #E30613;
             color: white;
             border-radius: 8px;
             border: none;
             padding: 6px 14px;
             font-size: 12px;
             font-weight: 500;
-            box-shadow: 0 1px 4px rgba(107, 30, 158, 0.1);
+            box-shadow: 0 1px 4px rgba(227, 6, 19, 0.1);
             transition: all 0.3s ease;
         }
         
         .stButton > button:hover {
-            background-color: #5A1880;
-            box-shadow: 0 2px 8px rgba(107, 30, 158, 0.18);
+            background-color: #B30510;
+            box-shadow: 0 2px 8px rgba(227, 6, 19, 0.18);
             transform: translateY(-1px);
         }
         
@@ -57,32 +67,32 @@ def add_styling():
         }
         
         .stButton > button[kind="secondary"]:hover {
-            background-color: #E8D4F1;
-            color: #5A1880;
-            border-color: #6B1E9E;
+            background-color: #FEE2E2;
+            color: #B30510;
+            border-color: #E30613;
         }
         
-        /* Sidebar - light purple background */
+        /* Sidebar - light blue/gray background */
         [data-testid="stSidebar"] {
-            background-color: #F9F5FC;
+            background-color: #F8FAFC;
             max-width: 280px;
-            border-right: 2px solid #E8D4F1;
+            border-right: 2px solid #E5E7EB;
         }
         
         [data-testid="stSidebar"] > div:first-child {
             padding-top: 1rem;
         }
         
-        /* Sidebar headers - Hollard purple */
+        /* Sidebar headers - PEP blue */
         [data-testid="stSidebar"] h2 {
-            color: #6B1E9E;
+            color: #1E3A8A;
             font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 0.4rem;
         }
         
         [data-testid="stSidebar"] h3 {
-            color: #5A1880;
+            color: #1E3A8A;
             font-size: 0.9rem;
             font-weight: 500;
             margin-bottom: 0.4rem;
@@ -90,7 +100,7 @@ def add_styling():
         
         /* File uploader styling */
         [data-testid="stFileUploader"] {
-            border: 2px dashed #6B1E9E;
+            border: 2px dashed #1E3A8A;
             border-radius: 10px;
             padding: 0.75rem;
             background-color: #FFFFFF;
@@ -98,29 +108,29 @@ def add_styling():
         
         /* Chat input styling */
         .stChatInput {
-            border-color: #6B1E9E;
+            border-color: #1E3A8A;
             border-radius: 16px;
         }
         
         /* Success messages */
         .stSuccess {
-            background-color: #E8D4F1;
-            color: #5A1880;
-            border-left: 4px solid #6B1E9E;
+            background-color: #DBEAFE;
+            color: #1E3A8A;
+            border-left: 4px solid #3B82F6;
             border-radius: 16px;
         }
         
         /* Info messages */
         .stInfo {
-            background-color: #F9F5FC;
-            color: #5A1880;
-            border-left: 4px solid #6B1E9E;
+            background-color: #F8FAFC;
+            color: #1E3A8A;
+            border-left: 4px solid #3B82F6;
             border-radius: 16px;
         }
         
         /* Dividers */
         hr {
-            border-color: #E8D4F1;
+            border-color: #E5E7EB;
         }
         
         /* Chat messages */
@@ -130,9 +140,9 @@ def add_styling():
             margin-bottom: 0.4rem;
         }
         
-        /* User messages - light purple */
+        /* User messages - light blue */
         [data-testid="stChatMessage"]:has([data-testid="stChatMessageContent"]:first-child) {
-            background-color: #E8D4F1;
+            background-color: #DBEAFE;
         }
         
         /* Headers */
@@ -147,11 +157,11 @@ def add_styling():
         
         /* Links */
         a {
-            color: #6B1E9E;
+            color: #1E3A8A;
         }
         
         a:hover {
-            color: #5A1880;
+            color: #E30613;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -161,33 +171,38 @@ def show_welcome_message(docs_exist, messages_exist):
     if not docs_exist and not messages_exist:
         # First-time user - no documents, no chat
         st.markdown("""
-            <div style='background: linear-gradient(135deg, #F9F5FC 0%, #FFFFFF 100%);
+            <div style='background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
                         padding: 18px;
                         border-radius: 10px;
-                        border: 1px solid #E8D4F1;
+                        border: 1px solid #E5E7EB;
                         margin-bottom: 16px;
                         text-align: center;'>
-                <h2 style='color: #6B1E9E; margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 600;'>
-                    <span style='font-size: 0.9rem;'>👋</span> Welcome to Hollard Policy Assistant!
+                <h2 style='color: #E30613; margin: 0 0 8px 0; font-size: 1.1rem; font-weight: 600;'>
+                    <span style='font-size: 0.9rem;'>📊</span> Welcome to PEP Merchandising Assistant!
                 </h2>
-                <p style='color: #5A1880; font-size: 0.85rem; line-height: 1.4; margin: 6px 0;'>
-                    Get instant answers about Hollard insurance products and policies.
+                <p style='color: #1E3A8A; font-size: 0.85rem; line-height: 1.4; margin: 6px 0;'>
+                    Quick access to buying, planning, and merchandising information.
                 </p>
                 <div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px;'>
-                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E8D4F1;'>
+                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
+                        <div style='font-size: 1rem; margin-bottom: 4px;'>📊</div>
+                        <strong style='color: #E30613; font-size: 0.85rem;'>Performance Data</strong>
+                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>KPIs, benchmarks, trends</p>
+                    </div>
+                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
+                        <div style='font-size: 1rem; margin-bottom: 4px;'>📦</div>
+                        <strong style='color: #E30613; font-size: 0.85rem;'>Vendor Information</strong>
+                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Contacts, lead times</p>
+                    </div>
+                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
                         <div style='font-size: 1rem; margin-bottom: 4px;'>📋</div>
-                        <strong style='color: #6B1E9E; font-size: 0.85rem;'>Policy Information</strong>
-                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Life, Disability, Business cover</p>
+                        <strong style='color: #E30613; font-size: 0.85rem;'>Procedures & Policies</strong>
+                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Workflows, approvals</p>
                     </div>
-                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E8D4F1;'>
-                        <div style='font-size: 1rem; margin-bottom: 4px;'>💬</div>
-                        <strong style='color: #6B1E9E; font-size: 0.85rem;'>Instant Answers</strong>
-                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Claims, terms, products</p>
-                    </div>
-                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E8D4F1;'>
-                        <div style='font-size: 1rem; margin-bottom: 4px;'>🔒</div>
-                        <strong style='color: #6B1E9E; font-size: 0.85rem;'>Secure & Private</strong>
-                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Your data stays protected</p>
+                    <div style='background: #FFFFFF; padding: 10px; border-radius: 6px; border: 1px solid #E5E7EB;'>
+                        <div style='font-size: 1rem; margin-bottom: 4px;'>💰</div>
+                        <strong style='color: #E30613; font-size: 0.85rem;'>Pricing & Margins</strong>
+                        <p style='color: #666666; font-size: 0.75rem; margin: 3px 0 0 0;'>Calculations, guidelines</p>
                     </div>
                 </div>
             </div>
@@ -195,76 +210,45 @@ def show_welcome_message(docs_exist, messages_exist):
     elif docs_exist and not messages_exist:
         # Documents uploaded but no chat started
         st.markdown("""
-            <div style='background: #E8D4F1;
+            <div style='background: #DBEAFE;
                         padding: 20px 24px;
                         border-radius: 12px;
                         margin-bottom: 20px;
-                        border-left: 4px solid #6B1E9E;'>
-                <p style='color: #5A1880; margin: 0; font-size: 1rem;'>
-                    ✨ <strong>Great!</strong> Your policy documents are ready. Ask me anything about Hollard products or policies.
+                        border-left: 4px solid #1E3A8A;'>
+                <p style='color: #1E3A8A; margin: 0; font-size: 1rem;'>
+                    ✨ <strong>Ready!</strong> Ask me about procedures, vendor info, pricing formulas, or performance benchmarks.
                 </p>
             </div>
         """, unsafe_allow_html=True)
 
-def check_handover_needed(response_text: str) -> bool:
-    """Check if the response indicates a handover to live agent is needed."""
-    handover_phrases = [
-        "connect you with",
-        "hand you over",
-        "handover",
-        "live agent",
-        "human expertise",
-        "hollard specialist",
-        "arrange a handover"
-    ]
-    return any(phrase.lower() in response_text.lower() for phrase in handover_phrases)
-
-def show_handover_end():
-    """Display minimalistic handover end screen."""
+def show_internal_contacts():
+    """Display internal PEP department contacts for additional support."""
     st.markdown("""
-        <div style='background: #F9F5FC; padding: 18px; border-radius: 10px; 
-                    border: 2px solid #6B1E9E; text-align: center; margin: 16px 0;'>
-            <div style='font-size: 1.4rem; margin-bottom: 8px;'>🤝</div>
-            <h3 style='color: #6B1E9E; margin: 0 0 6px 0; font-size: 1rem;'>Session Ended</h3>
-            <p style='color: #666; margin: 0 0 12px 0; font-size: 0.85rem;'>
-                This conversation requires human assistance.
-            </p>
-            <div style='background: white; padding: 12px; border-radius: 6px; margin: 10px 0;'>
-                <p style='color: #5A1880; margin: 0 0 10px 0; font-weight: 600; font-size: 0.85rem;'>Contact Options:</p>
-                <div style='text-align: left; color: #666; font-size: 0.8rem;'>
-                    <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>📞</span> <strong>Phone:</strong> 0860 103 933</p>
-                    <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>✉️</span> <strong>Email:</strong> info@hollard.co.za</p>
-                    <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>🔍</span> <strong>Find a Broker:</strong> 
-                        <a href='https://www.hollard.co.za/broker-tool' target='_blank' 
-                           style='color: #6B1E9E; text-decoration: none;'>hollard.co.za/broker-tool</a>
-                    </p>
-                </div>
+        <div style='background: #F8FAFC; padding: 14px; border-radius: 8px; 
+                    border: 1px solid #E5E7EB; margin-top: 12px;'>
+            <p style='color: #1E3A8A; margin: 0 0 10px 0; font-weight: 600; font-size: 0.85rem;'>ℹ️ Need Additional Support?</p>
+            <div style='color: #666; font-size: 0.8rem; line-height: 1.6;'>
+                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>📞</span> <strong>Buying Manager:</strong> Ext 2401</p>
+                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>📞</span> <strong>Merchandising Head:</strong> Ext 2405</p>
+                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>📞</span> <strong>Planning Director:</strong> Ext 2410</p>
+                <p style='margin: 5px 0;'><span style='font-size: 0.85rem;'>✉️</span> <strong>Email:</strong> merchandising@pep.co.za</p>
             </div>
         </div>
     """, unsafe_allow_html=True)
-    
-    # Disable further chat
-    st.session_state.handover_triggered = True
 
 def show_header():
     st.markdown("""
-        <div style='background: linear-gradient(135deg, #6B1E9E 0%, #5A1880 100%); 
-                    padding: 12px 20px; 
+        <div style='background: linear-gradient(135deg, #E30613 0%, #B30510 100%); 
+                    padding: 14px 20px; 
                     border-radius: 10px; 
                     margin-bottom: 16px;
-                    box-shadow: 0 2px 8px rgba(107, 30, 158, 0.12);
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;'>
-            <div style='flex: 0 0 auto;'>
-                <img src="https://www.hollard.co.za/_next/static/media/hollard-footer-default.9ed7fd46.svg" alt="Hollard" style="height: 30px; width: auto; display: block;">
-            </div>
-            <div style='flex: 1; text-align: left;'>
-                <h1 style='color: #FFFFFF; margin: 0; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.2px;'>
-                    Hollard Policy Assistant
+                    box-shadow: 0 2px 8px rgba(227, 6, 19, 0.12);'>
+            <div style='text-align: center;'>
+                <h1 style='color: #FFFFFF; margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.3px;'>
+                    📊 PEP Merchandising Assistant
                 </h1>
-                <p style='color: #E8D4F1; margin: 2px 0 0 0; font-size: 0.75rem; font-weight: 400;'>
-                    Your Policy Knowledge Partner
+                <p style='color: #FEE2E2; margin: 3px 0 0 0; font-size: 0.75rem; font-weight: 400;'>
+                    Your Merchandising Knowledge Hub
                 </p>
             </div>
         </div>
@@ -455,64 +439,47 @@ show_welcome_message(docs_exist=bool(docs), messages_exist=bool(st.session_state
 if st.session_state.messages:
     if st.button("🗑️ Clear Chat History"):
         st.session_state.messages = []
-        st.session_state.handover_triggered = False
         # Also clear the LangChain message history
         if "session_histories" in st.session_state:
             st.session_state.session_histories = {}
         st.rerun()
 
-# Check if handover was triggered
-if st.session_state.get('handover_triggered', False):
-    # Display messages up to handover
-    for message in st.session_state.messages:
-        avatar = "👤" if message["role"] == "user" else "🛡️"
-        with st.chat_message(message["role"], avatar=avatar):
-            st.write(message["content"])
-    
-    # Show handover end screen
-    show_handover_end()
-    
-    # Disable chat input
-    st.chat_input("Session ended - Please contact Hollard directly", disabled=True)
-    
-else:
-    # Display all previous messages
-    for message in st.session_state.messages:
-        avatar = "👤" if message["role"] == "user" else "🛡️"
-        with st.chat_message(message["role"], avatar=avatar):
-            st.write(message["content"])
+# Display all previous messages
+for message in st.session_state.messages:
+    avatar = "👤" if message["role"] == "user" else "📊"
+    with st.chat_message(message["role"], avatar=avatar):
+        st.write(message["content"])
 
-    # Chat input - disabled if no documents
-    if not chain:
-        st.info("👋 Upload documents to start chatting!")
-        st.chat_input("Upload documents first...", disabled=True)
-    elif user_input := st.chat_input("Ask about Hollard products or policies..."):
-        # Add user message to session state and display it
-        st.session_state.messages.append({"role": "user", "content": user_input})
-        with st.chat_message("user", avatar="👤"):
-            st.write(user_input)
-        
-        # Generate and display assistant response
-        with st.chat_message("assistant", avatar="🛡️"):
-            try:
-                with st.spinner("🔍 Analyzing your documents..."):
-                    response = chain.invoke(
-                        {"input": user_input},
-                        config={"configurable": {"session_id": "main"}}
-                    )
-                # The response is already a string due to StrOutputParser
-                st.write(response)
-                # Add assistant message to session state
-                st.session_state.messages.append({"role": "assistant", "content": response})
-                
-                # Check if handover is needed and end session
-                if check_handover_needed(response):
-                    st.session_state.handover_triggered = True
-                    st.rerun()
-            except Exception as e:
-                error_msg = f"Error: {str(e)}"
-                st.error(error_msg)
-                import traceback
-                st.error(traceback.format_exc())
-                # Add error to session state so it persists
-                st.session_state.messages.append({"role": "assistant", "content": error_msg})
+# Chat input - disabled if no documents
+if not chain:
+    st.info("👋 Upload knowledge base documents to start!")
+    st.chat_input("Upload documents first...", disabled=True)
+elif user_input := st.chat_input("Ask about procedures, vendors, pricing, or benchmarks..."):
+    # Add user message to session state and display it
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    with st.chat_message("user", avatar="👤"):
+        st.write(user_input)
+    
+    # Generate and display assistant response
+    with st.chat_message("assistant", avatar="📊"):
+        try:
+            with st.spinner("🔍 Searching knowledge base..."):
+                response = chain.invoke(
+                    {"input": user_input},
+                    config={"configurable": {"session_id": "main"}}
+                )
+            # The response is already a string due to StrOutputParser
+            st.write(response)
+            # Add assistant message to session state
+            st.session_state.messages.append({"role": "assistant", "content": response})
+        except Exception as e:
+            error_msg = f"Error: {str(e)}"
+            st.error(error_msg)
+            import traceback
+            st.error(traceback.format_exc())
+            # Add error to session state so it persists
+            st.session_state.messages.append({"role": "assistant", "content": error_msg})
+
+# Show internal contacts in sidebar (always visible)
+with st.sidebar:
+    show_internal_contacts()
