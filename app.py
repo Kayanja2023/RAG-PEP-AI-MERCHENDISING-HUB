@@ -451,38 +451,89 @@ def process_new_uploads(new_files):
 # Apply custom styling
 add_styling()
 
-# Main banner at the top
+# Main banner at the top - Elevated Minimalism design
 st.markdown("""
-    <div style='background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%); 
-                padding: 16px 24px; border-radius: 12px; margin-bottom: 16px;
-                box-shadow: 0 4px 12px rgba(17, 128, 250, 0.25);
-                border: 2px solid #FFFFFF;'>
-        <div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;'>
-            <div style='display: flex; align-items: center; gap: 16px;'>
-                <div style='background: #FFFFFF; padding: 8px 16px 8px 20px; border-radius: 8px;
-                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); position: relative; overflow: visible;'>
-                    <div style='position: absolute; left: 6px; top: 50%; transform: translateY(-50%);
-                                width: 14px; height: 22px; background: #FFD100; 
-                                border-radius: 30px 0 0 30px; z-index: 1;'></div>
-                    <h1 style='background: linear-gradient(135deg, #1180FA 0%, #FFD100 70%, #FFD100 100%);
-                               -webkit-background-clip: text;
-                               -webkit-text-fill-color: transparent;
-                               background-clip: text;
-                               margin: 0; font-size: 1.8rem; font-weight: 900; 
-                               letter-spacing: 0.5px; position: relative; z-index: 2;'>PEP</h1>
-                </div>
-                <div>
-                    <h2 style='color: #FFFFFF; margin: 0 0 4px 0; font-size: 1.1rem; 
-                               font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.1);'>
-                        Merchandising Knowledge Hub
-                    </h2>
-                    <p style='color: #E0F2FE; margin: 0; font-size: 0.75rem; font-weight: 500;'>
-                        🔍 AI-Powered Intelligence for Buying, Planning & Merchandising Teams
-                    </p>
-                </div>
+    <div style='background: linear-gradient(135deg, #F0F7FF 0%, #FFFFFF 100%); 
+                border-radius: 14px; 
+                margin-bottom: 24px;
+                padding: 20px 32px;
+                box-shadow: 0 2px 12px rgba(17, 128, 250, 0.12);
+                border-left: 3px solid #1180FA;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;'>
+        <div style='display: flex; align-items: center; gap: 20px; flex-wrap: wrap;'>
+            <div style='background: linear-gradient(135deg, #1180FA 0%, #0D6DD9 100%); 
+                        width: 64px; 
+                        height: 64px; 
+                        border-radius: 12px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;
+                        box-shadow: 0 4px 12px rgba(17, 128, 250, 0.25);
+                        transition: transform 0.3s ease;'>
+                <span style='color: #FFFFFF; 
+                            font-size: 1.75rem; 
+                            font-weight: 900; 
+                            letter-spacing: 1px;'>PEP</span>
+            </div>
+            <div style='flex: 1; min-width: 280px;'>
+                <h1 style='color: #1F2937; 
+                          margin: 0 0 6px 0; 
+                          font-size: 1.75rem; 
+                          font-weight: 800;
+                          line-height: 1.2;
+                          letter-spacing: -0.02em;'>
+                    Merchandising Knowledge Hub
+                </h1>
+                <p style='color: #6B7280; 
+                         margin: 0; 
+                         font-size: 1rem; 
+                         font-weight: 500;
+                         line-height: 1.5;'>
+                    AI-Powered Intelligence for Buying, Planning & Merchandising Teams
+                </p>
+            </div>
+            <div style='margin-left: auto;'>
+                <span style='display: inline-block;
+                            background: rgba(17, 128, 250, 0.1);
+                            color: #1180FA;
+                            padding: 6px 14px;
+                            border-radius: 20px;
+                            font-size: 0.8rem;
+                            font-weight: 600;
+                            letter-spacing: 0.3px;
+                            border: 1px solid rgba(17, 128, 250, 0.2);'>
+                    ✨ GPT-4
+                </span>
             </div>
         </div>
     </div>
+    <style>
+        @media (max-width: 640px) {
+            div[style*="flex-wrap: wrap"] > div:first-child {
+                width: 56px !important;
+                height: 56px !important;
+            }
+            div[style*="flex-wrap: wrap"] h1 {
+                font-size: 1.5rem !important;
+            }
+            div[style*="flex-wrap: wrap"] p {
+                font-size: 0.9rem !important;
+            }
+            div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+                width: 100%;
+                text-align: center;
+            }
+        }
+        @media (min-width: 641px) and (max-width: 1024px) {
+            div[style*="flex-wrap: wrap"] > div:first-child {
+                width: 60px !important;
+                height: 60px !important;
+            }
+        }
+    </style>
 """, unsafe_allow_html=True)
 
 show_demo_disclaimer()
@@ -635,6 +686,7 @@ How can I assist you today?"""
     st.session_state.messages.append({"role": "assistant", "content": welcome_message})
 
 # Show contextual welcome message
+docs = get_document_list()
 show_welcome_message(docs_exist=bool(docs), messages_exist=bool(st.session_state.messages))
 
 # Add clear chat button
