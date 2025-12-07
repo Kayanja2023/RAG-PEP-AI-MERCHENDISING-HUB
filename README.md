@@ -8,7 +8,7 @@ A Retrieval-Augmented Generation (RAG) system designed to provide instant access
 [![License](https://img.shields.io/badge/license-Internal%20Use-orange.svg)](#license)
 
 ---
-
+![PEP LOGO](assets\pep_merchandising_knowledgehub.png)
 ## Table of Contents
 
 - [Overview](#overview)
